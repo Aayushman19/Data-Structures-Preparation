@@ -1,0 +1,104 @@
+##Next Greater Element to the Right##
+vector<int> nger(vector<int>& arr){
+        stack<int> stack;
+        vector<int> nger(arr.size());
+        for(int i=arr.size() - 1 ; i>=0 ; i--){
+            if(stack.empty()){
+                nger.push_back(-1);
+                stack.push(arr[i]);
+            }
+            else if(!stack.empty()){
+                while(!stack.empty() && arr[i] > stack.top()){
+                    stack.pop();
+                }
+                if(stack.empty()){
+                    nger.push_back(-1);
+                }
+                else{
+                    nger.push_back(stack.top());
+                }
+                stack.push(arr[i]);
+            }
+        }
+        reverse(nger.begin(), nger.end());
+        return nger;
+}
+##Next Greater Element to the Left##
+vector<int> ngel (vector<int>& arr){
+        stack<int> stack;
+        vector<int> ngel(arr.size());
+        for(int i=0 ; i<arr.size() ; i++){
+            if(stack.empty()){
+                ngel.push_back(-1);
+                stack.push(arr[i]);
+            }
+            else if(!stack.empty()){
+                while(!stack.empty() && arr[i] > stack.empty()){
+                    stack.empty();
+                }
+                if(stack.empty()){
+                    ngel.push_back(-1);
+                }
+                else{
+                    ngel.push_back(stack.top());
+                }
+            }
+            stack.push(arr[i]);
+        }
+        return ngel;
+}
+##Next Smaller Element to the Right##
+vector<int> nser(vector<int>& arr){
+        stack<int> stack;
+        vector<int> nser(arr.size());
+        for(int i=arr.size()-1 ; i>=0 ; i--){
+            while(!stack.empty() && arr[stack.top()]>=arr[i]){
+                stack.pop();
+            }
+            if(stack.empty()){
+                nser[i] = arr.size();
+            }
+            else{
+                nser[i] = stack.top();
+            }
+            stack.push(i);
+        }
+        return nser;
+
+    }
+##Next Smaller Element to the Left##
+    vector<int> nsel(vector<int>& arr){
+        stack<int> stack;
+        vector<int> nsel(arr.size());
+        for(int i=0 ; i<arr.size() ; i++){
+            while(!stack.empty() && arr[stack.top()]>=arr[i]){
+                stack.pop();
+            }
+            if(stack.empty()){
+                nsel[i] = -1;
+            }
+            else{
+                nsel[i] = stack.top();
+            }
+            stack.push(i);
+        }
+        return nsel;
+    }
+##Valid Parantheses##
+class Solution:
+    def isValid(self, s: str) -> bool:
+        l = list()
+        
+        d = {'}':'{', ')':'(', ']':'['}
+        b_open = d.values()
+        
+        for b in s:
+            if b in b_open:
+                l.append(b)
+            else:
+                if len(l) > 0 and l[-1] == d[b]:
+                        l.pop()
+                else:
+                    return False
+        
+        return len(l) == 0
